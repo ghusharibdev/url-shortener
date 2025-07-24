@@ -13,8 +13,13 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "mongoose": "^8.16.4",
     "nodemon": "^3.1.10",
+    "path": "^0.12.7",
+    "short-uuid": "^5.2.0",
+    "shorturl": "^0.0.3",
     "uuid": "^11.1.0"
   }
 }
