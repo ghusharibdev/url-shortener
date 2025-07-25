@@ -1,17 +1,25 @@
-const shortID = require('short-uuid')
+const shortID = require("shortid");
+const Url = require("../model/Url");
 
-const urlShorten = (req,res)=>{
-    // const longUrl = req.body.longUrl;
-    const shortid = shortID.generate()
-    const shortURL = `http://localhost:3000/${shortid}`
-    console.log(shortURL);
-    
-    res.render('index', {shortUrl: shortURL})
-}
+const urlShorten = async (req, res) => {
+  const { longUrl } = req.body;
+  const shortid = shortID.generate();
+  const shortURL = `http://localhost:3000/${shortid}`;
+  const newurl = new Url({ shortCode: shortid, longUrl });
+  await newurl.save();
+  console.log(shortURL);
 
-const getLongUrl = (req,res)=>{
-    const code = req.params.shortCode;
+  res.render("index", { shortUrl: shortURL });
+};
 
-}
+const getLongUrl = async (req, res) => {
+  const code = req.params.shortCode;
+  const findUrl =  await Url.findOne({ shortCode: code });
 
-module.exports = {urlShorten, getLongUrl}
+  if (!findUrl) return res.sendStatus(404);
+
+  const { longUrl } = findUrl
+  return res.redirect(longUrl);
+};
+
+module.exports = { urlShorten, getLongUrl };
